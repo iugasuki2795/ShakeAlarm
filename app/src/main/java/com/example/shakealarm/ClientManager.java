@@ -11,12 +11,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Vector;
+
+import static android.util.Log.i;
 
 
 public class ClientManager {
@@ -26,7 +29,9 @@ public class ClientManager {
 
     public ClientManager(String ip, int port){
         try{
+            Log.i("abcd", ip+"/"+port);
             socket = new Socket(ip, port);
+            i("abcd", socket+"1");
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
         }catch(IOException e){}
@@ -63,6 +68,7 @@ public class ClientManager {
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         String phoneNumber = manager.getLine1Number();
         PreferencesManager.setRoomName(context, roomName);
+        Log.i("abcd", socket+"2");
         this.writeUTF("Join");
         this.writeUTF(phoneNumber);
         this.writeUTF(roomName);

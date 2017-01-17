@@ -210,9 +210,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             TheThread thread = new TheThread(TheThread.MODE_JOIN, this, room_name);
             thread.start();
-            Intent intent=new Intent(getBaseContext(),MainActivity.class);
-            startActivity(intent);
-            finish();
+
             //mAuthTask = new UserLoginTask(email, password);
            //mAuthTask.execute((Void) null);
 
