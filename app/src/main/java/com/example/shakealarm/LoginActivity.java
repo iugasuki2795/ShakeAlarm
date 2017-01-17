@@ -41,7 +41,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that off\
  * ers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, OnClickListener {
 //hihi
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         );
 
+        button.setOnClickListener(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -130,6 +131,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    public void onClick(View view)
+    {
+        //nickname은 아직 안 씀
+        String room_name = mEmailView.getText().toString();
+        String nickname = mPasswordView.getText().toString();
+
+        ClientManager cm = new ClientManager(PreferencesManager.IP, PreferencesManager.port);
+        cm.sendJoin(this, room_name);
+        Intent intent=new Intent(getBaseContext(),MainActivity.class);
+        startActivity(intent);
+        finish();
+
+
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
