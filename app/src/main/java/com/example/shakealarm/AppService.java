@@ -9,9 +9,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 /**
  * Created by USER on 2017-01-17.
@@ -86,20 +89,31 @@ public class AppService extends Service implements SensorEventListener{
 
     class CheckThread extends Thread{
         private Context c;
-        long last =0;
+        private long last =0;
+        private Vibrator m_vibrator;
+        private TextToSpeech tts;
         public CheckThread(Context c){
             this.c=c;
+            m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            tts = new TextToSpeech(c, new TextToSpeech.OnInitListener(){
+               @Override
+                public void onInit(int status){
+                    tts.setLanguage(Locale.KOREAN);
+               }
+            });
         }
         public void run(){
             while(true){
                 long currentTime = System.currentTimeMillis();
                 if(cm!=null&&cm.checkMyState(c)&&currentTime-last>500){
-                    Vibrator m_vibrator;
-                    m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+                    tts.speak(PreferencesManager.getRoomName(c), TextToSpeech.QUEUE_FLUSH, null);
                     m_vibrator.vibrate(500);
                     last=currentTime;
                 }
             }
+            //tts.stop();
+           // tts.shutdown();
         }
     }
 
