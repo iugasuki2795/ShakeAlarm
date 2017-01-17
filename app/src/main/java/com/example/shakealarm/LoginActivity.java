@@ -27,6 +27,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -46,6 +48,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
     public int id = -1;
+    private CheckBox checkBox;
+    private Button button;
+
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -69,12 +74,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         id = PreferencesManager.getId(this);
+
         if(id!=-1){
             Intent intent=new Intent(getBaseContext(),MainActivity.class);
             startActivity(intent);
             this.finish();
         }
 
+
+        button = (Button)findViewById(R.id.email_sign_in_button);
+        checkBox = (CheckBox)findViewById(R.id.checkBox);
+        checkBox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener()
+        {
+          public void onCheckedChanged(CompoundButton db , boolean isChecking)
+         {
+                 if(isChecking) {
+                     button.setEnabled(true);
+                     button.setText("SHAKE ALARM 시작하기");
+                 }
+                 else
+                 {
+                     button.setEnabled(false);
+                    button.setText("이용약관에 동의하셔야 시작할 수 있습니다");
+                 }
+
+         }
+        }
+        );
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
