@@ -3,6 +3,7 @@ package com.example.shakealarm;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class TheThread extends Thread{
             case MODE_JOIN:
                 cm.sendJoin(c, r);
             case MODE_REQUEST:
+                Log.i("abcd", "start");
                 AppService.setClientManager(cm);
                 ArrayList<String> list =  cm.askMembers(c);
                 Intent intent=new Intent(c,MainActivity.class);

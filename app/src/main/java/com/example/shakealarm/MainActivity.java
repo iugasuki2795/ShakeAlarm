@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton cb , boolean isChecking )
             {
                 String str = String.valueOf(isChecking);
-
+                PreferencesManager.setEnabled(getBaseContext(), isChecking);
                 if(isChecking){
                     Toast.makeText(getApplication(),"알림켜기 ",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(), AppService.class);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(getApplication(), "알림끄기 ", Toast.LENGTH_SHORT).show();
                 }
-                PreferencesManager.setEnabled(getBaseContext(), isChecking);
+
             }
 
         });
