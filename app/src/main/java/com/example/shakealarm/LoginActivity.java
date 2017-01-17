@@ -88,7 +88,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         {
           public void onCheckedChanged(CompoundButton db , boolean isChecking)
          {
-                 button.setEnabled(isChecking);
+                 if(isChecking) {
+                     button.setEnabled(true);
+                     button.setText("SHAKE ALARM 시작하기");
+                 }
+                 else
+                 {
+                     button.setEnabled(false);
+                    button.setText("이용약관에 동의하셔야 시작할 수 있습니다");
+                 }
+
          }
         }
         );
