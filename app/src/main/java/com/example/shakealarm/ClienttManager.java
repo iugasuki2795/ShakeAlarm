@@ -63,7 +63,7 @@ public class ClienttManager {
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         String phoneNumber = manager.getLine1Number();
         PreferencesManager.setRoomName(context, roomName);
-        this.writeUTF("new");
+        this.writeUTF("Join");
         this.writeUTF(phoneNumber);
         this.writeUTF(roomName);
 
@@ -74,12 +74,13 @@ public class ClienttManager {
 
     public void updateRoom(Context context, String roomName){//방 이름 수정
         PreferencesManager.setRoomName(context, roomName);
-        this.writeUTF("change");
+        this.writeUTF("Update");
+        this.writeInt(PreferencesManager.getId(context));
         this.writeUTF(roomName);
     }
 
-    public Vector<String> getMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
-        this.writeUTF("askMember");
+    public Vector<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
+        this.writeUTF("AskMember");
         this.writeInt(PreferencesManager.getId(context));
 
         Vector<String> members = new Vector<String>();
