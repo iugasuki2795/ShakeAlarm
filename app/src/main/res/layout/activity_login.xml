@@ -106,8 +106,8 @@
                     android:text="@string/agree_permission"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:id="@+id/checkBox" />
-
 
                 <Button
                     android:id="@+id/email_sign_in_button"
