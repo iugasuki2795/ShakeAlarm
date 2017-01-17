@@ -19,12 +19,12 @@ import java.net.Socket;
 import java.util.Vector;
 
 
-public class SocketManager {
+public class ClienttManager {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
 
-    public SocketManager(String ip, int port){
+    public ClienttManager(String ip, int port){
         try{
             socket = new Socket(ip, port);
             in = new DataInputStream(socket.getInputStream());
