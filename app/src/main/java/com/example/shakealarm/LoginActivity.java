@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         id = PreferencesManager.getId(this);
 
         if(id!=-1){
-            showProgress(true);
+           // showProgress(true);
             TheThread thread = new TheThread(TheThread.MODE_REQUEST, this);
             thread.start();
         }
