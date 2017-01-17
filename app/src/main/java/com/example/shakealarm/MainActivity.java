@@ -40,11 +40,15 @@ public class MainActivity extends AppCompatActivity {
             {
                 String str = String.valueOf(isChecking);
 
-                if(isChecking)
+                if(isChecking){
                     Toast.makeText(getApplication(),"알림켜기 ",Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getApplication(),"알림끄기 ",Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(getBaseContext(), AppService.class);
+                    startService(intent);
+                }
+                else {
+                    Toast.makeText(getApplication(), "알림끄기 ", Toast.LENGTH_SHORT).show();
+                }
+                PreferencesManager.setEnabled(getBaseContext(), isChecking);
             }
 
         });

@@ -43,6 +43,10 @@ public class AppService extends Service implements SensorEventListener{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 시작될 때 마다 실행 시킬 것 입력
+        if(PreferencesManager.isEnabled(this)){
+            CheckThread thread = new CheckThread(this);
+            thread.start();
+        }
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -54,8 +58,7 @@ public class AppService extends Service implements SensorEventListener{
         sm =(SensorManager)getSystemService(SENSOR_SERVICE);
         accSensor=sm.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sm.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        CheckThread thread = new CheckThread(this);
-        thread.start();
+
     }
 
     @Override
@@ -103,7 +106,7 @@ public class AppService extends Service implements SensorEventListener{
             });
         }
         public void run(){
-            while(true){
+            while(PreferencesManager.isEnabled(c)){
                 long currentTime = System.currentTimeMillis();
                 if(cm!=null&&cm.checkMyState(c)&&currentTime-last>500){
 
@@ -112,8 +115,8 @@ public class AppService extends Service implements SensorEventListener{
                     last=currentTime;
                 }
             }
-            //tts.stop();
-           // tts.shutdown();
+            tts.stop();
+            tts.shutdown();
         }
     }
 
