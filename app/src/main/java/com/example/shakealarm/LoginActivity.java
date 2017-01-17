@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-    public int id  = 0; //getId() 의 return값이 -1이 아니면 login activity를 끝내고 다른 액티비티를 띄운다.
+    public int id = -1;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -68,13 +68,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        id = PreferencesManager.getId(this);
         if(id!=-1){
             Intent intent=new Intent(getBaseContext(),MainActivity.class);
             startActivity(intent);
             this.finish();
-        }else {
-
         }
 
         // Set up the login form.
