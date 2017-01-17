@@ -40,7 +40,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * ers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
+//hihi
     /**
      * Id to identity READ_CONTACTS permission request.
      */
