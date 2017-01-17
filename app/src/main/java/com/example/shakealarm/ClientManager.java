@@ -82,7 +82,7 @@ public class ClientManager {
         this.writeUTF("askMember");
         this.writeInt(PreferencesManager.getId(context));
 
-        Vector<String> members = new Vector<String>();
+        Vector<String> members = new Vector<>();
         int count = this.readInt();
         for(int i=0;i<count;i++){
             String number = this.readUTF();
