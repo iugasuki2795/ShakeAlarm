@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ShakeAlarm</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">알람 코드 입력</string>
+    <string name="prompt_password">닉네임 입력(선택)</string>
+    <string name="action_sign_in">shake alarm 시작하기</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">닉네임은 두 글자 이상!</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">코드는 반드시 입력하세요!  EX)일어나 랩실가자</string>
+    <string name="agree_permission">이용 약관에 동의합니다.</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+
+    </string>
+    <string name="title_activity_main">메인 화면</string>
+    <string name="code_name">코드 이름</string>
+
+</resources>
