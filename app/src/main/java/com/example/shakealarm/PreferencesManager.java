@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferencesManager {
+    public static final String IP= "172.17.192.1";
+    public static final int port = 7289;
+
+
     public static void setId(Context c, int id){
         SharedPreferences pref = c.getSharedPreferences("pref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();

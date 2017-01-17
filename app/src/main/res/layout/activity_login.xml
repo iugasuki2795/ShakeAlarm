@@ -106,8 +106,10 @@
                     android:text="@string/agree_permission"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/checkBox" />
-
+                    android:checked="true"
+                    android:id="@+id/checkBox"
+                    android:layout_marginBottom="50dp"
+                    />
 
                 <Button
                     android:id="@+id/email_sign_in_button"
@@ -116,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/action_sign_in"
+
                     android:textStyle="bold"
                     android:textColor="#FFEAEAEA"
                     android:background="#FF353535"
