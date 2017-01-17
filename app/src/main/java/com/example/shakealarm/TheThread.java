@@ -3,6 +3,7 @@ package com.example.shakealarm;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,9 @@ public class TheThread extends Thread{
     }
 
     public void run(){
-        ClientManager cm = new ClientManager(PreferencesManager.IP, PreferencesManager.port);
+        ClientManager cm = AppService.getClientManager();
+        if(cm==null)
+            cm = new ClientManager(PreferencesManager.IP, PreferencesManager.port);
         switch (mode){
             case MODE_JOIN:
                 cm.sendJoin(c, r);

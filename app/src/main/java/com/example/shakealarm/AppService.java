@@ -16,14 +16,19 @@ import android.widget.Toast;
  */
 
 public class AppService extends Service implements SensorEventListener{
-
+    private static ClientManager cm;
     SensorManager sm;
     Sensor accSensor;
     long lastCalled = 0;
 
     private MainActivity ma;
 
-
+    public static void setClientManager(ClientManager cmm){
+        cm=cmm;
+    }
+    public static ClientManager getClientManager(){
+        return cm;
+    }
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -33,6 +38,7 @@ public class AppService extends Service implements SensorEventListener{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 시작될 때 마다 실행 시킬 것 입력
+       // cm=(ClientManager)intent.getExtras().getSerializable("cm");
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -48,6 +54,7 @@ public class AppService extends Service implements SensorEventListener{
 
     @Override
     public void onDestroy() {
+        cm=null;
         //서비스 중지되면 중지 할 것 입력 후, ".stop();"
         super.onDestroy();
         sm.unregisterListener(this);
@@ -61,6 +68,7 @@ public class AppService extends Service implements SensorEventListener{
                     float average = (float)Math.sqrt(event.values[0]*event.values[0]+event.values[1]*event.values[1]+event.values[2]*event.values[2]);
                     if(average>5){
                         Log.i("abcd", "shake");
+
                         lastCalled=currentTime;
                     }
                     break;

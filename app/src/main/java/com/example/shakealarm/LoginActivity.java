@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public int id = -1;
     private CheckBox checkBox;
     private Button button;
-
+    String room_name;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             //nickname은 아직 안 씀
-            String room_name = mEmailView.getText().toString();
+            room_name = mEmailView.getText().toString();
             String nickname = mPasswordView.getText().toString();
 
 
