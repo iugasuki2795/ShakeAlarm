@@ -63,7 +63,7 @@ public class ClientManager {
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         String phoneNumber = manager.getLine1Number();
         PreferencesManager.setRoomName(context, roomName);
-        this.writeUTF("new");
+        this.writeUTF("Join");
         this.writeUTF(phoneNumber);
         this.writeUTF(roomName);
 
@@ -74,12 +74,13 @@ public class ClientManager {
 
     public void updateRoom(Context context, String roomName){//방 이름 수정
         PreferencesManager.setRoomName(context, roomName);
-        this.writeUTF("change");
+        this.writeUTF("Update");
+        this.writeInt(PreferencesManager.getId(context));
         this.writeUTF(roomName);
     }
 
-    public Vector<String> getMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
-        this.writeUTF("askMember");
+    public Vector<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
+        this.writeUTF("AskMember");
         this.writeInt(PreferencesManager.getId(context));
 
         Vector<String> members = new Vector<String>();
@@ -91,9 +92,24 @@ public class ClientManager {
         return members;
     }
 
-    public void sendVibration(Context context){//내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
-        this.writeUTF("send");
+    public void changeState(Context context){//내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
+        this.writeUTF("State");
         this.writeInt(PreferencesManager.getId(context));
+    }
+
+
+    public boolean checkMyState(Context context){
+        this.writeUTF("Check");
+        this.writeInt(PreferencesManager.getId(context));
+
+
+        String check = this.readUTF();
+
+        if(check.equals("FALSE")){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     private String getNameFromNumber(Context context, String number){
