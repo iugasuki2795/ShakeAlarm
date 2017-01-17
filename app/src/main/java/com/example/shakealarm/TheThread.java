@@ -11,6 +11,7 @@ import android.util.Log;
 
 public class TheThread extends Thread{
     public static final int MODE_JOIN = 1;
+    public static final int MODE_REQUEST = 2;
 
     int mode;
     Context c;
