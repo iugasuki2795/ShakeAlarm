@@ -92,9 +92,22 @@ public class ClienttManager {
         return members;
     }
 
-    public void sendVibration(Context context){//내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
-        this.writeUTF("send");
+    public void changeState(Context context){//내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
+        this.writeUTF("State");
         this.writeInt(PreferencesManager.getId(context));
+    }
+
+    public boolean checkMyState(Context context){
+        this.writeUTF("Check");
+        this.writeInt(PreferencesManager.getId(context));
+
+        String check = this.readUTF();
+
+        if(check.equals("FALSE")){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     private String getNameFromNumber(Context context, String number){
