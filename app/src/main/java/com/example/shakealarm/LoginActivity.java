@@ -39,8 +39,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that off\
  * ers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, OnClickListener {
-//hihi
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -99,8 +98,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
          }
         }
         );
-
-        button.setOnClickListener(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -129,21 +126,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    public void onClick(View view)
-    {
-        //nickname은 아직 안 씀
-        String room_name = mEmailView.getText().toString();
-        String nickname = mPasswordView.getText().toString();
-
-
-        TheThread thread = new TheThread(TheThread.MODE_JOIN, this, room_name);
-        thread.start();
-        Intent intent=new Intent(getBaseContext(),MainActivity.class);
-        startActivity(intent);
-        finish();
-
-
-    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -221,6 +203,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+            //nickname은 아직 안 씀
+            String room_name = mEmailView.getText().toString();
+            String nickname = mPasswordView.getText().toString();
+
+
+            TheThread thread = new TheThread(TheThread.MODE_JOIN, this, room_name);
+            thread.start();
+            Intent intent=new Intent(getBaseContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
             //mAuthTask = new UserLoginTask(email, password);
            //mAuthTask.execute((Void) null);
 
