@@ -92,9 +92,10 @@ public class AppService extends Service implements SensorEventListener{
         public void run(){
             while(true){
                 if(cm!=null&&cm.checkMyState(c)){
+                    Log.i("abcd", "in");
                     Vibrator m_vibrator;
                     m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    m_vibrator.vibrate(3);
+                    m_vibrator.vibrate(100);
                 }
             }
         }
