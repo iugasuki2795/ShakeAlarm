@@ -41,8 +41,6 @@ public class AppService extends Service implements SensorEventListener{
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 시작될 때 마다 실행 시킬 것 입력
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-        CheckThread thread = new CheckThread(this);
-        thread.start();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -53,6 +51,8 @@ public class AppService extends Service implements SensorEventListener{
         sm =(SensorManager)getSystemService(SENSOR_SERVICE);
         accSensor=sm.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sm.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        CheckThread thread = new CheckThread(this);
+        thread.start();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class AppService extends Service implements SensorEventListener{
         }
         public void run(){
             while(true){
-                if(cm.checkMyState(c)){
+                if(cm!=null&&cm.checkMyState(c)){
                     Vibrator m_vibrator;
                     m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     m_vibrator.vibrate(3);
