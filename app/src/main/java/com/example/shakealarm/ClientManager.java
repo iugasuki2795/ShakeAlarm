@@ -97,9 +97,11 @@ public class ClientManager {
         this.writeInt(PreferencesManager.getId(context));
     }
 
+
     public boolean checkMyState(Context context){
         this.writeUTF("Check");
         this.writeInt(PreferencesManager.getId(context));
+
 
         String check = this.readUTF();
 
