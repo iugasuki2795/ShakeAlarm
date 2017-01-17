@@ -86,16 +86,18 @@ public class AppService extends Service implements SensorEventListener{
 
     class CheckThread extends Thread{
         private Context c;
+        long last =0;
         public CheckThread(Context c){
             this.c=c;
         }
         public void run(){
             while(true){
-                if(cm!=null&&cm.checkMyState(c)){
-                    Log.i("abcd", "in");
+                long currentTime = System.currentTimeMillis();
+                if(cm!=null&&cm.checkMyState(c)&&currentTime-last>500){
                     Vibrator m_vibrator;
                     m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    m_vibrator.vibrate(100);
+                    m_vibrator.vibrate(500);
+                    last=currentTime;
                 }
             }
         }

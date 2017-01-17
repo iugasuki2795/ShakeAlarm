@@ -9,8 +9,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -18,11 +16,8 @@ import android.util.Log;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
-
-import static android.util.Log.i;
 
 
 public class ClientManager {
@@ -110,7 +105,7 @@ public class ClientManager {
 
 
         String check = this.readUTF();
-
+        Log.i("abcd", check);
         if(check.equals("FALSE")){
             return false;
         }else{
