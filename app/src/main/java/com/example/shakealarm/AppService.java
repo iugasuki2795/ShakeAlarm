@@ -1,12 +1,14 @@
 package com.example.shakealarm;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,8 +40,9 @@ public class AppService extends Service implements SensorEventListener{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //서비스가 시작될 때 마다 실행 시킬 것 입력
-       // cm=(ClientManager)intent.getExtras().getSerializable("cm");
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        CheckThread thread = new CheckThread(this);
+        thread.start();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -67,6 +70,7 @@ public class AppService extends Service implements SensorEventListener{
                 if(currentTime-lastCalled>400){
                     float average = (float)Math.sqrt(event.values[0]*event.values[0]+event.values[1]*event.values[1]+event.values[2]*event.values[2]);
                     if(average>5){
+                        cm.changeState(this);
                         Log.i("abcd", "shake");
 
                         lastCalled=currentTime;
@@ -78,6 +82,22 @@ public class AppService extends Service implements SensorEventListener{
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
+    }
+
+    class CheckThread extends Thread{
+        private Context c;
+        public CheckThread(Context c){
+            this.c=c;
+        }
+        public void run(){
+            while(true){
+                if(cm.checkMyState(c)){
+                    Vibrator m_vibrator;
+                    m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    m_vibrator.vibrate(3);
+                }
+            }
+        }
     }
 
 
