@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         id = PreferencesManager.getId(this);
+
         if(id!=-1){
             Intent intent=new Intent(getBaseContext(),MainActivity.class);
             startActivity(intent);
