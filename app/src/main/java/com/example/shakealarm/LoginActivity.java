@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -73,9 +72,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         id = PreferencesManager.getId(this);
 
         if(id!=-1){
-            Intent intent=new Intent(getBaseContext(),MainActivity.class);
-            startActivity(intent);
-            this.finish();
+            showProgress(true);
+            TheThread thread = new TheThread(TheThread.MODE_REQUEST, this);
+            thread.start();
         }
 
 

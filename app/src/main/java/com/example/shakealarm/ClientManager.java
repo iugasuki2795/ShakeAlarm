@@ -17,7 +17,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import static android.util.Log.i;
 
@@ -68,7 +68,6 @@ public class ClientManager {
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         String phoneNumber = manager.getLine1Number();
         PreferencesManager.setRoomName(context, roomName);
-        Log.i("abcd", socket+"2");
         this.writeUTF("Join");
         this.writeUTF(phoneNumber);
         this.writeUTF(roomName);
@@ -85,11 +84,11 @@ public class ClientManager {
         this.writeUTF(roomName);
     }
 
-    public Vector<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
+    public ArrayList<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
         this.writeUTF("AskMember");
         this.writeInt(PreferencesManager.getId(context));
 
-        Vector<String> members = new Vector<>();
+        ArrayList<String> members = new ArrayList<>();
         int count = this.readInt();
         for(int i=0;i<count;i++){
             String number = this.readUTF();
