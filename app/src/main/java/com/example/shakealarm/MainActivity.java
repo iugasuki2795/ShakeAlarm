@@ -32,7 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private Button button;
     TextView dTextView = null;
-   @Override
+    FloatingActionButton delete;//삭제 버튼
+
+    FloatingActionButton plus; //fab와 rec를 띄우기 위한 버튼
+    FloatingActionButton rec;//음성녹음 버튼
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -68,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        delete = (FloatingActionButton) findViewById(R.id.fab);
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "설정", Snackbar.LENGTH_LONG)
@@ -100,18 +104,17 @@ public class MainActivity extends AppCompatActivity {
         });
        //밑에 두 개는 리스너 달아 놓기만 하면 됨
        //카카오톡 앱 켜는 버튼
-       FloatingActionButton kakao = (FloatingActionButton)findViewById(R.id.fab_kakao);
-       kakao.setOnClickListener(new View.OnClickListener() {
+       plus= (FloatingActionButton)findViewById(R.id.plus);
+       plus.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
 
-               Snackbar.make(view, "카카오톡 연결", Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show();
+               ToggleFab();
 
            }
        });
        //음성녹음 버튼
-       FloatingActionButton rec =(FloatingActionButton)findViewById(R.id.fab_rec);
+       rec =(FloatingActionButton)findViewById(R.id.fab_rec);
        rec.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -123,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
                     TheThread thread = new TheThread(FILE, getBaseContext(), vr);
                     thread.start();
                 }
-//               Snackbar.make(view, "음성녹음", Snackbar.LENGTH_LONG)
-//                     .setAction("Action", null).show();
 
            }
        });
@@ -142,5 +143,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void ToggleFab() {
+        // 버튼들이 보여지고있는 상태인 경우 숨겨줍니다.
+        if(plus.getVisibility() == View.VISIBLE) {
+            delete.hide();
+            rec.hide();
+            delete.animate().translationY(0);
+            rec.animate().translationY(0);
+        }
+        // 버튼들이 숨겨져있는 상태인 경우 위로 올라오면서 보여줍니다.
+        else {
+            // 중심이 되는 버튼의 높이 + 마진 만큼 거리를 계산합니다.
+            int dy = plus.getHeight() + 20;
+            delete.show();
+            rec.show();
+            // 계산된 거리만큼 이동하는 애니메이션을 입력합니다.
+            delete.animate().translationY(-dy*2);
+            rec.animate().translationY(-dy);
+        }
+    }
+
+
+
 
 }
