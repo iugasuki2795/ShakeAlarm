@@ -99,16 +99,19 @@ public class AppService extends Service implements SensorEventListener{
             this.c=c;
             m_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             tts = new TextToSpeech(c, new TextToSpeech.OnInitListener(){
-               @Override
+                @Override
                 public void onInit(int status){
-                    tts.setLanguage(Locale.KOREAN);
-               }
+
+                }
             });
         }
         public void run(){
             while(PreferencesManager.isEnabled(c)){
                 if(cm!=null&&cm.checkMyState(c)){
-
+                    if(PreferencesManager.getRoomName(c).charAt(0)>='a'&&PreferencesManager.getRoomName(c).charAt(0)<='z')
+                        tts.setLanguage(Locale.ENGLISH);
+                    else
+                        tts.setLanguage(Locale.KOREAN);
                     tts.speak(PreferencesManager.getRoomName(c), TextToSpeech.QUEUE_FLUSH, null);
                     m_vibrator.vibrate(500);
                     try{

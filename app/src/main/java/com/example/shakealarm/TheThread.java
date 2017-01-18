@@ -45,7 +45,6 @@ public class TheThread extends Thread{
                 intent.putExtra("list", list);
                 c.startActivity(intent);
                 ((Activity)c).finish();
-
                 break;
             case MODE_UPDATE:
                 cm.updateRoom(c, r);
