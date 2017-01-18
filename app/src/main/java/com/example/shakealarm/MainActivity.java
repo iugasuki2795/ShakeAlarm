@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private Switch swt;
     private ListView listView;
     private EditText editText;
+    private Button button;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             startService(intent);
         }
         swt = (Switch)findViewById(R.id.onoff);
-        swt.setEnabled(PreferencesManager.isEnabled(this));
+        swt.setChecked(PreferencesManager.isEnabled(this));
         swt.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener()
         {
             public void onCheckedChanged(CompoundButton cb , boolean isChecking )
@@ -67,6 +71,15 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.edit_text);
         String str = PreferencesManager.getRoomName(this);
         editText.setText(str);
+
+        button = (Button)findViewById(R.id.btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TheThread theThread = new TheThread(TheThread.MODE_UPDATE,getBaseContext(),editText.getText().toString());
+                theThread.start();
+            }
+        });
 
     }
 

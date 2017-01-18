@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class TheThread extends Thread{
     public static final int MODE_JOIN = 1;
     public static final int MODE_REQUEST = 2;
+    public  static  final int MODE_UPDATE =3;
 
     int mode;
     Context c;
@@ -39,17 +40,15 @@ public class TheThread extends Thread{
                 cm.sendJoin(c, r);
             case MODE_REQUEST:
                 AppService.setClientManager(cm);
-                Log.i("abcd", "1");
                 ArrayList<String> list =  cm.askMembers(c);
-                Log.i("abcd", "2");
                 Intent intent=new Intent(c,MainActivity.class);
-                Log.i("abcd", "3");
                 intent.putExtra("list", list);
-                Log.i("abcd", "4");
                 c.startActivity(intent);
-                Log.i("abcd", "5");
                 ((Activity)c).finish();
+
                 break;
+            case MODE_UPDATE:
+                cm.updateRoom(c, r);
         }
     }
 }
