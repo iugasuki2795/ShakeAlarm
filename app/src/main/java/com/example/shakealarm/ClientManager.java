@@ -60,7 +60,7 @@ public class ClientManager {
         }catch(IOException e){}
     }
 
-    public int sendJoin(Context context, String roomName){//휴대폰 번호를 보내고 가입, 그리고 아이디를 리턴받음.
+    public synchronized int sendJoin(Context context, String roomName){//휴대폰 번호를 보내고 가입, 그리고 아이디를 리턴받음.
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         Log.i("abcd", manager+"");
         String phoneNumber = manager.getLine1Number();
@@ -77,40 +77,33 @@ public class ClientManager {
         return id;
     }
 
-    public void updateRoom(Context context, String roomName){//방 이름 수정
+    public synchronized void updateRoom(Context context, String roomName){//방 이름 수정
         PreferencesManager.setRoomName(context, roomName);
         this.writeUTF("Update");
         this.writeInt(PreferencesManager.getId(context));
         this.writeUTF(roomName);
     }
 
-    public ArrayList<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
-        Log.i("abcd", "a");
+    public synchronized ArrayList<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
         this.writeUTF("AskMember");
-        Log.i("abcd", "b");
         this.writeInt(PreferencesManager.getId(context));
-        Log.i("abcd", "c");
+
         ArrayList<String> members = new ArrayList<>();
-        Log.i("abcd", "d");
         int count = this.readInt();
-        Log.i("abcd", "e");
         for(int i=0;i<count;i++){
-            Log.i("abcd", count+"");
             String number = this.readUTF();
-            Log.i("abcd", "g");
             members.add(getNameFromNumber(context, number));
-            Log.i("abcd", "h");
         }
         return members;
     }
 
-    public void changeState(Context context){//내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
+    public synchronized void changeState(Context context){//내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
         this.writeUTF("State");
         this.writeInt(PreferencesManager.getId(context));
     }
 
 
-    public boolean checkMyState(Context context){
+    public synchronized boolean checkMyState(Context context){
         this.writeUTF("Check");
         this.writeInt(PreferencesManager.getId(context));
 

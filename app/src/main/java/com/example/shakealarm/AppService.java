@@ -107,12 +107,13 @@ public class AppService extends Service implements SensorEventListener{
         }
         public void run(){
             while(PreferencesManager.isEnabled(c)){
-                long currentTime = System.currentTimeMillis();
-                if(cm!=null&&cm.checkMyState(c)&&currentTime-last>500){
+                if(cm!=null&&cm.checkMyState(c)){
 
                     tts.speak(PreferencesManager.getRoomName(c), TextToSpeech.QUEUE_FLUSH, null);
                     m_vibrator.vibrate(500);
-                    last=currentTime;
+                    try{
+                        Thread.sleep(500);
+                    }catch(InterruptedException e){}
                 }
             }
             tts.stop();
