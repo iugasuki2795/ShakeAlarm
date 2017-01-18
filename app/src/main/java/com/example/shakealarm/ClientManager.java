@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -105,7 +104,6 @@ public class ClientManager {
 
 
         String check = this.readUTF();
-        Log.i("abcd", check);
         if(check.equals("FALSE")){
             return false;
         }else{
