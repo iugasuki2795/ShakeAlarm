@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    VoiceRecorder vr;
+
     private Switch swt;
     private ListView listView;
     private EditText editText;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        vr = new VoiceRecorder(this);
         ArrayList<String> list = getIntent().getStringArrayListExtra("list");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
@@ -108,7 +111,13 @@ public class MainActivity extends AppCompatActivity {
        rec.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-
+                if(vr.isRecorded()){
+                    vr.onPlay(true);
+                }else if(!vr.isRecording()){
+                    vr.onRecord(true);
+                }else if(vr.isRecording()){
+                    vr.onRecord(false);
+                }
                Snackbar.make(view, "음성녹음", Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show();
 
