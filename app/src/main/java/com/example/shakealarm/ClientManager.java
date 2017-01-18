@@ -183,7 +183,6 @@ public class ClientManager {
         }catch(FileNotFoundException e){
         }catch(IOException e){}
 
-
     }
 
     private String getNameFromNumber(Context context, String number){
