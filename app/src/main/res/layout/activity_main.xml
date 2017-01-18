@@ -8,40 +8,65 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     >
-
+x
 
     <Switch
         android:id="@+id/onoff"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="true"/>
+        android:enabled="true"
+        android:layout_below="@+id/btn"
+        android:layout_centerHorizontal="true"
+
+        />
 
     <Button
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/onoff"
-        android:layout_toStartOf="@+id/onoff"
-        android:text="수정"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:padding="15dip"
+        android:textSize="30sp"
+        android:text="Edit"
+        android:layout_marginRight="25dp"
         />
 
     <EditText
         android:id="@+id/edit_text"
-        android:layout_toLeftOf="@id/btn"
-        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/code_name" />
+        android:padding="15dip"
+        android:textSize="30sp"
+        android:hint="@string/code_name"
+        android:layout_alignBaseline="@+id/btn"
+        android:layout_alignBottom="@+id/btn"
+        android:layout_alignParentStart="true"
+        android:layout_alignStart="@+id/btn"
+        android:layout_toLeftOf="@+id/btn"
+        android:layout_marginLeft="25dp"/>
 
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_below="@id/edit_text"
+    <TextView
+        android:id="@+id/textview_member"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="8dip"
+        android:textSize="25sp"
+        android:text="Alarm Code Member"
+        android:layout_below="@+id/onoff"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_alignParentStart="true" />
+    <ListView
+       android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    android:layout_below="@+id/textview_member"
+    android:layout_alignParentEnd="true"
+    android:layout_marginLeft="17dp"
+    android:layout_marginRight="17dp">
     </ListView>
 
     <android.support.design.widget.FloatingActionButton
@@ -53,6 +78,27 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_menu_manage" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_kakao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_rec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        />
 
 
 </RelativeLayout>
