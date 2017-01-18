@@ -11,7 +11,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -84,15 +83,11 @@ public class ClientManager {
         }
         PreferencesManager.setRoomName(context, roomName);
         synchronized (this){
-            Log.i("abcd", "startJoin");
             this.writeUTF("Join");
             this.writeUTF(phoneNumber);
             this.writeUTF(roomName);
 
             id = this.readInt();
-            Log.i("abcd", id+"id");
-            Log.i("abcd", "endJoin");
-
         }
         PreferencesManager.setId(context, id);
         return id;
@@ -112,9 +107,7 @@ public class ClientManager {
     public ArrayList<String> askMembers(Context context){
         ArrayList<String> members = new ArrayList<>();
         synchronized (this){
-            Log.i("abcd", "startAsk");
             this.writeUTF("AskMember");
-            Log.i("abcd", PreferencesManager.getId(context)+"");
             this.writeInt(PreferencesManager.getId(context));
 
             int count = this.readInt();
@@ -122,7 +115,6 @@ public class ClientManager {
                 String number = this.readUTF();
                 members.add(getNameFromNumber(context, number));
             }
-            Log.i("abcd", "endAsk");
         }
         return members;
     }
@@ -135,7 +127,6 @@ public class ClientManager {
 
     // 내 상태를 체크함
     public synchronized int checkMyState(Context context){
-        Log.i("abcd", "startCheck");
         this.writeUTF("Check");
         this.writeInt(PreferencesManager.getId(context));
 
@@ -197,12 +188,9 @@ public class ClientManager {
                     length = fin.read(buffer);
                     this.write(buffer, 0, length);
                 }
-                Log.i("abcd", "last");
             }
-            Log.i("abcd", "escape");
         }catch(FileNotFoundException e){
         }catch(IOException e){}
-        Log.i("abcd", "end");
     }
 
     private String getNameFromNumber(Context context, String number){

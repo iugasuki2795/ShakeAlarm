@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void ToggleFab() {
         // 버튼들이 보여지고있는 상태인 경우 숨겨줍니다.
-        if(plus.getVisibility() == View.VISIBLE) {
+        if(delete.getVisibility() == View.VISIBLE) {
             delete.hide();
             rec.hide();
             delete.animate().translationY(0);
