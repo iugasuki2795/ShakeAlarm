@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -52,16 +53,19 @@ public class ClientManager {
     }
     private void writeInt(int i){
         try{
+            Log.i("abcd", "write/"+i);
             out.writeInt(i);
         }catch(IOException e){}
     }
     private void writeUTF(String s){
         try{
+            Log.i("abcd", "write/"+s);
             out.writeUTF(s);
         }catch(IOException e){}
     }
     private void write(byte[] b, int off, int len){
         try{
+            Log.i("abcd", "write"+b.toString());
             out.write(b, off, len);
         }catch(IOException e){};
     }
@@ -127,11 +131,16 @@ public class ClientManager {
 
     // 내 상태를 체크함
     public synchronized int checkMyState(Context context){
+        Log.i("abcd", "checkSyncStart");
         this.writeUTF("Check");
+        Log.i("abcd", "1");
         this.writeInt(PreferencesManager.getId(context));
+        Log.i("abcd", PreferencesManager.getId(context)+"/2");
 
         String check = this.readUTF();
+        Log.i("abcd", check+"/3");
         if(check.equals("FALSE")){
+            Log.i("abcd", "check1SyncEnd");
             return 0;
         }else if(check.equals("VOICE")){
             int length = this.readInt();
@@ -152,6 +161,7 @@ public class ClientManager {
                 mp.start();
             }catch(FileNotFoundException e){}
             catch (IOException e) {}
+            Log.i("abcd", "check2SyncEnd");
             return 2;
         } else{
             return 1;

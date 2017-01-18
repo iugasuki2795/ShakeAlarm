@@ -77,8 +77,6 @@ public class AppService extends Service implements SensorEventListener{
                     float average = (float)Math.sqrt(event.values[0]*event.values[0]+event.values[1]*event.values[1]+event.values[2]*event.values[2]);
                     if(average>5){
                         cm.changeState(this);
-                        Log.i("abcd", "shake");
-
                         lastCalled=currentTime;
                     }
                     break;
@@ -109,6 +107,7 @@ public class AppService extends Service implements SensorEventListener{
         public void run(){
             while(PreferencesManager.isEnabled(c)){
                 if(cm==null)continue;
+                Log.i("abcd", "check");
                 int state = cm.checkMyState(c);
                 if(state==1){
                     if(PreferencesManager.getRoomName(c).charAt(0)>='a'&&PreferencesManager.getRoomName(c).charAt(0)<='z')
