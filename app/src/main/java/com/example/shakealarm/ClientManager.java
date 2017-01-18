@@ -16,6 +16,7 @@ import android.util.Log;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,6 +59,11 @@ public class ClientManager {
         try{
             out.writeUTF(s);
         }catch(IOException e){}
+    }
+    public void write(byte[] b, int off, int len){
+        try{
+            out.write(b, off, len);
+        }catch(IOException e){};
     }
     public void close(){
         try{
@@ -153,6 +159,31 @@ public class ClientManager {
 
         // 이렇게 하면 database에서 클라이언트 정보가 삭제 됩니다
         // 어플은 클라이언트가 알아서 지우겠죠?
+    }
+
+    public synchronized void upload(Context context, VoiceRecorder vr){
+        File file = new File(vr.getLocation());
+        try{
+            FileInputStream fin = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            int length;
+            int data =0;
+            while((length=fin.read(buffer))>0){
+                data++;
+            }
+            fin.close();
+            fin = new FileInputStream(vr.getLocation());
+            this.writeUTF("File");
+            this.writeInt(PreferencesManager.getId(context));
+            this.writeInt(data);
+            for(;data>0;data--){
+                length = fin.read(buffer);
+                this.write(buffer, 0, length);
+            }
+        }catch(FileNotFoundException e){
+        }catch(IOException e){}
+
+
     }
 
     private String getNameFromNumber(Context context, String number){

@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static com.example.shakealarm.TheThread.mode.JOIN;
+import static com.example.shakealarm.TheThread.mode.REQUEST;
 
 /**
  * A login screen that off\
@@ -72,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         id = PreferencesManager.getId(this);
 
         if(id!=-1){
-            TheThread thread = new TheThread(TheThread.MODE_REQUEST, this);
+            TheThread thread = new TheThread(JOIN, this);
             thread.start();
             //attemptLogin();
         }
@@ -208,8 +210,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
             TheThread thread;
-            if(PreferencesManager.getId(this)==-1) thread =  new TheThread(TheThread.MODE_JOIN, this, room_name);
-            else thread = new TheThread(TheThread.MODE_REQUEST, this);
+            if(PreferencesManager.getId(this)==-1) thread =  new TheThread(JOIN, this, room_name);
+            else thread = new TheThread(REQUEST, this);
             thread.start();
 
             //mAuthTask = new UserLoginTask(email, password);

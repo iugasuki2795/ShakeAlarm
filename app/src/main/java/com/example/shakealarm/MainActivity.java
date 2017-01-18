@@ -19,6 +19,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static com.example.shakealarm.TheThread.mode.DELETE;
+import static com.example.shakealarm.TheThread.mode.FILE;
+import static com.example.shakealarm.TheThread.mode.UPDATE;
+
 public class MainActivity extends AppCompatActivity {
 
     VoiceRecorder vr;
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(getBaseContext(), AppService.class);
                         stopService(intent);
-                        TheThread thread = new TheThread(TheThread.MODE_DELETE, getBaseContext());
+                        TheThread thread = new TheThread(DELETE, getBaseContext());
                         thread.start();
                     }
                 });
@@ -111,15 +115,16 @@ public class MainActivity extends AppCompatActivity {
        rec.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-                if(vr.isRecorded()){
-                    vr.onPlay(true);
-                }else if(!vr.isRecording()){
+                if(!vr.isRecording()){
                     vr.onRecord(true);
                 }else if(vr.isRecording()){
                     vr.onRecord(false);
+                    vr.onPlay(true);
+                    TheThread thread = new TheThread(FILE, getBaseContext(), vr);
+                    thread.start();
                 }
-               Snackbar.make(view, "음성녹음", Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show();
+//               Snackbar.make(view, "음성녹음", Snackbar.LENGTH_LONG)
+//                     .setAction("Action", null).show();
 
            }
        });
@@ -131,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TheThread theThread = new TheThread(TheThread.MODE_UPDATE,getBaseContext(),editText.getText().toString());
+                TheThread theThread = new TheThread(UPDATE,getBaseContext(),editText.getText().toString());
                 theThread.start();
             }
         });

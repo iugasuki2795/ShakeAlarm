@@ -1,9 +1,11 @@
 package com.example.shakealarm;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -114,11 +116,13 @@ public class VoiceRecorder  {
             setOnClickListener(clicker);
         }
     }
-
+    public String getLocation(){
+        return mFileName;
+    }
     public VoiceRecorder(Context c){
         mFileName = c.getExternalCacheDir().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
-        //ActivityCompat.requestPermissions(c, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+        mFileName += ("/ShakeAlarm.3gp");
+        ActivityCompat.requestPermissions((Activity)c, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
 
 }
