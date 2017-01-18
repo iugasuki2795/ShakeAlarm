@@ -39,7 +39,6 @@ public class TheThread extends Thread{
         ClientManager cm = AppService.getClientManager();
         if(cm==null)
             cm = new ClientManager(PreferencesManager.IP, PreferencesManager.port);
-        Log.i("abcd", cm+"");
         switch (mode){
             case JOIN:
                 cm.sendJoin(c, r);
@@ -60,8 +59,10 @@ public class TheThread extends Thread{
                 PreferencesManager.setId(c, -1);
                 break;
             case FILE:
+                Log.i("abcd", "FILE");
                 cm.upload(c, vr);
                 break;
         }
+        Log.i("abcd", "END");
     }
 }
