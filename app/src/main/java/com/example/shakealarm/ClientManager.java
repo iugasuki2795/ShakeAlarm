@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+
 public class ClientManager {
     private Socket socket;
     private DataInputStream in;
@@ -35,32 +36,32 @@ public class ClientManager {
             out = new DataOutputStream(socket.getOutputStream());
         }catch(IOException e){}
     }
-    public int readInt(){
+    private int readInt(){
         try{
             return in.readInt();
         }catch(IOException e){ return -1; }
     }
-    public String readUTF(){
+    private String readUTF(){
         try{
             return in.readUTF();
         }catch(IOException e){ return null; }
     }
-    public int read(byte[] buffer){
+    private int read(byte[] buffer){
         try{
             return in.read(buffer);
         }catch(IOException e){return 0;}
     }
-    public void writeInt(int i){
+    private void writeInt(int i){
         try{
             out.writeInt(i);
         }catch(IOException e){}
     }
-    public void writeUTF(String s){
+    private void writeUTF(String s){
         try{
             out.writeUTF(s);
         }catch(IOException e){}
     }
-    public void write(byte[] b, int off, int len){
+    private void write(byte[] b, int off, int len){
         try{
             out.write(b, off, len);
         }catch(IOException e){};
@@ -74,41 +75,54 @@ public class ClientManager {
     }
 
     //휴대폰 번호를 보내고 가입, 그리고 아이디를 리턴받음.
-    public synchronized int sendJoin(Context context, String roomName){
+    public int sendJoin(Context context, String roomName){
+        int id;
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-        Log.i("abcd", manager+"");
         String phoneNumber = manager.getLine1Number();
         if (phoneNumber == null) {
             phoneNumber="nope";
         }
         PreferencesManager.setRoomName(context, roomName);
-        this.writeUTF("Join");
-        this.writeUTF(phoneNumber);
-        this.writeUTF(roomName);
+        synchronized (this){
+            Log.i("abcd", "startJoin");
+            this.writeUTF("Join");
+            this.writeUTF(phoneNumber);
+            this.writeUTF(roomName);
 
-        int id = this.readInt();
+            id = this.readInt();
+            Log.i("abcd", id+"id");
+            Log.i("abcd", "endJoin");
+
+        }
         PreferencesManager.setId(context, id);
         return id;
     }
 
     // 방 이름 수정
-    public synchronized void updateRoom(Context context, String roomName){
+    public void updateRoom(Context context, String roomName){
         PreferencesManager.setRoomName(context, roomName);
-        this.writeUTF("Update");
-        this.writeInt(PreferencesManager.getId(context));
-        this.writeUTF(roomName);
+        synchronized (this){
+            this.writeUTF("Update");
+            this.writeInt(PreferencesManager.getId(context));
+            this.writeUTF(roomName);
+        }
     }
 
     //onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
-    public synchronized ArrayList<String> askMembers(Context context){
-        this.writeUTF("AskMember");
-        this.writeInt(PreferencesManager.getId(context));
-
+    public ArrayList<String> askMembers(Context context){
         ArrayList<String> members = new ArrayList<>();
-        int count = this.readInt();
-        for(int i=0;i<count;i++){
-            String number = this.readUTF();
-            members.add(getNameFromNumber(context, number));
+        synchronized (this){
+            Log.i("abcd", "startAsk");
+            this.writeUTF("AskMember");
+            Log.i("abcd", PreferencesManager.getId(context)+"");
+            this.writeInt(PreferencesManager.getId(context));
+
+            int count = this.readInt();
+            for(int i=0;i<count;i++){
+                String number = this.readUTF();
+                members.add(getNameFromNumber(context, number));
+            }
+            Log.i("abcd", "endAsk");
         }
         return members;
     }
@@ -121,6 +135,7 @@ public class ClientManager {
 
     // 내 상태를 체크함
     public synchronized int checkMyState(Context context){
+        Log.i("abcd", "startCheck");
         this.writeUTF("Check");
         this.writeInt(PreferencesManager.getId(context));
 
@@ -150,6 +165,7 @@ public class ClientManager {
         } else{
             return 1;
         }
+
     }
 
     // 회원 탈퇴를 위해서 id를 보내면, database에서 삭제
@@ -161,7 +177,7 @@ public class ClientManager {
         // 어플은 클라이언트가 알아서 지우겠죠?
     }
 
-    public synchronized void upload(Context context, VoiceRecorder vr){
+    public void upload(Context context, VoiceRecorder vr){
         File file = new File(vr.getLocation());
         try{
             FileInputStream fin = new FileInputStream(file);
@@ -173,16 +189,20 @@ public class ClientManager {
             }
             fin.close();
             fin = new FileInputStream(vr.getLocation());
-            this.writeUTF("File");
-            this.writeInt(PreferencesManager.getId(context));
-            this.writeInt(data);
-            for(;data>0;data--){
-                length = fin.read(buffer);
-                this.write(buffer, 0, length);
+            synchronized (this){
+                this.writeUTF("File");
+                this.writeInt(PreferencesManager.getId(context));
+                this.writeInt(data);
+                for(;data>0;data--){
+                    length = fin.read(buffer);
+                    this.write(buffer, 0, length);
+                }
+                Log.i("abcd", "last");
             }
+            Log.i("abcd", "escape");
         }catch(FileNotFoundException e){
         }catch(IOException e){}
-
+        Log.i("abcd", "end");
     }
 
     private String getNameFromNumber(Context context, String number){

@@ -109,7 +109,6 @@ public class AppService extends Service implements SensorEventListener{
         public void run(){
             while(PreferencesManager.isEnabled(c)){
                 if(cm==null)continue;
-
                 int state = cm.checkMyState(c);
                 if(state==1){
                     if(PreferencesManager.getRoomName(c).charAt(0)>='a'&&PreferencesManager.getRoomName(c).charAt(0)<='z')
