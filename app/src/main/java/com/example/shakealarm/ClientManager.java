@@ -7,6 +7,7 @@ package com.example.shakealarm;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
@@ -14,6 +15,9 @@ import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -39,6 +43,11 @@ public class ClientManager {
         try{
             return in.readUTF();
         }catch(IOException e){ return null; }
+    }
+    public int read(byte[] buffer){
+        try{
+            return in.read(buffer);
+        }catch(IOException e){return 0;}
     }
     public void writeInt(int i){
         try{
@@ -105,15 +114,35 @@ public class ClientManager {
     }
 
     // 내 상태를 체크함
-    public synchronized boolean checkMyState(Context context){
+    public synchronized int checkMyState(Context context){
         this.writeUTF("Check");
         this.writeInt(PreferencesManager.getId(context));
 
         String check = this.readUTF();
         if(check.equals("FALSE")){
-            return false;
-        }else{
-            return true;
+            return 0;
+        }else if(check.equals("VOICE")){
+            int length = this.readInt();
+            File file = new File("voice.3gp");
+            try{
+                FileOutputStream fout = new FileOutputStream(file);
+
+                byte[] buffer = new byte[1024];
+                for(;length>0;length--){
+                    int size = this.read(buffer);
+                    fout.write(buffer, 0, length);
+                }
+                fout.flush();
+                fout.close();
+                MediaPlayer mp = new MediaPlayer();
+                mp.setDataSource(file.getPath());
+                mp.prepare();
+                mp.start();
+            }catch(FileNotFoundException e){}
+            catch (IOException e) {}
+            return 2;
+        } else{
+            return 1;
         }
     }
 
