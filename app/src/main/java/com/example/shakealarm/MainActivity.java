@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     VoiceRecorder vr;
 
-    private Switch swt;
+    private ToggleButton swt;
     private ListView listView;
     private EditText editText;
     private Button button;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AppService.class);
             startService(intent);
         }
-        swt = (Switch)findViewById(R.id.onoff);
+        swt = (ToggleButton)findViewById(R.id.onoff);
         swt.setChecked(PreferencesManager.isEnabled(this));
         swt.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener()
         {
