@@ -41,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         vr = new VoiceRecorder(this);
+
+        listView = new ListView(this);
         ArrayList<String> list = getIntent().getStringArrayListExtra("list");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,list);
-        listView = (ListView)findViewById(R.id.listview);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.itemname,R.id.listview,list);
         listView.setAdapter(arrayAdapter);
         if(PreferencesManager.isEnabled(this)){
             Intent intent = new Intent(this, AppService.class);

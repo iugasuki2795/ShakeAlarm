@@ -75,8 +75,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:visibility="gone"
+        app:backgroundTint="#FFEAEAEA"
         android:src="@drawable/ic_delete_black_24dp"
         />
 
@@ -87,10 +88,10 @@
         app:fabSize="normal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="20dp"
+        android:layout_margin="15dp"
         android:visibility="gone"
         android:src="@drawable/ic_record_voice_over_black_24dp"
-
+        app:backgroundTint="#FFEAEAEA"
         />
 
     <android.support.design.widget.FloatingActionButton
@@ -98,11 +99,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="normal"
-        android:layout_margin="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/btn"
         app:srcCompat="@drawable/smartphone"
-  />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:backgroundTint="?attr/colorPrimaryDark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+       />
 
 </RelativeLayout>
