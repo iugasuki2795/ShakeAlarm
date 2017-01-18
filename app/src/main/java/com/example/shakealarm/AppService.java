@@ -105,6 +105,7 @@ public class AppService extends Service implements SensorEventListener{
                 }
             });
         }
+
         public void run(){
             while(PreferencesManager.isEnabled(c)){
                 if(cm!=null&&cm.checkMyState(c)){

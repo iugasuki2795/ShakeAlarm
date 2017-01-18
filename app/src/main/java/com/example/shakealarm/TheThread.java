@@ -20,6 +20,8 @@ public class TheThread extends Thread{
     Context c;
     String r;
 
+
+
     public TheThread(int mode, Context context,String room_name){
         this.mode=mode;
         c=context;
