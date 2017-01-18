@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferencesManager {
-    public static final String IP= "172.17.192.56";
+    public static final String IP= "172.17.192.81";
     public static final int port = 12345;
 
 
