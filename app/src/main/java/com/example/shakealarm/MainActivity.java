@@ -1,9 +1,11 @@
 package com.example.shakealarm;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,9 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private EditText editText;
     private Button button;
-
-
-    @Override
+    TextView dTextView = null;
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -63,8 +65,28 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "닉네임 바꾸기", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "설정", Snackbar.LENGTH_LONG)
+                  //      .setAction("Action", null).show();
+
+                //수정 시작한 부분
+                dTextView  = new TextView(getBaseContext());
+                dTextView.setText("탈퇴하시겠습니까?");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setCancelable(true);
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        TheThread thread = new TheThread(TheThread.MODE_DELETE, getBaseContext());
+                        thread.start();
+                    }
+                });
+                builder.setNegativeButton("취소", null);
+
+                builder.setView(dTextView);
+                AlertDialog worklistDialog= builder.create();
+                worklistDialog.show();
+
+
             }
         });
 

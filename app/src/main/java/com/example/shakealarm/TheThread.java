@@ -16,12 +16,11 @@ public class TheThread extends Thread{
     public static final int MODE_JOIN = 1;
     public static final int MODE_REQUEST = 2;
     public  static  final int MODE_UPDATE =3;
+    public  static  final int MODE_DELETE =4;
 
     int mode;
     Context c;
     String r;
-
-
 
     public TheThread(int mode, Context context,String room_name){
         this.mode=mode;
@@ -52,6 +51,10 @@ public class TheThread extends Thread{
             case MODE_UPDATE:
                 cm.updateRoom(c, r);
                 Toast.makeText(c,"알람 코드가 바뀌었습니다",Toast.LENGTH_SHORT).show();
+                break;
+            case MODE_DELETE:
+                cm.delete(c);
+                break;
         }
     }
 }
