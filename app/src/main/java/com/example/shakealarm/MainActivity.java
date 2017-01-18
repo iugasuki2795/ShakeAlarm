@@ -34,11 +34,13 @@ public class MainActivity extends AppCompatActivity {
             startService(intent);
         }
         swt = (Switch)findViewById(R.id.onoff);
+        swt.setEnabled(PreferencesManager.isEnabled(this));
         swt.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener()
         {
             public void onCheckedChanged(CompoundButton cb , boolean isChecking )
             {
                 String str = String.valueOf(isChecking);
+
                 PreferencesManager.setEnabled(getBaseContext(), isChecking);
                 if(isChecking){
                     Toast.makeText(getApplication(),"알림켜기 ",Toast.LENGTH_SHORT).show();
@@ -63,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         editText = (EditText)findViewById(R.id.edit_text);
-        editText.setText("코드이름");
+        String str = PreferencesManager.getRoomName(this);
+        editText.setText(str);
+
     }
 
 }
