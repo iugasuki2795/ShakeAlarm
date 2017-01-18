@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "설정", Snackbar.LENGTH_LONG)
-                  //      .setAction("Action", null).show();
+                //      .setAction("Action", null).show();
 
                 //수정 시작한 부분
                 dTextView  = new TextView(getBaseContext());
@@ -91,7 +91,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+       //밑에 두 개는 리스너 달아 놓기만 하면 됨
+       //카카오톡 앱 켜는 버튼
+       FloatingActionButton kakao = (FloatingActionButton)findViewById(R.id.fab_kakao);
+       kakao.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
 
+               Snackbar.make(view, "카카오톡 연결", Snackbar.LENGTH_LONG)
+                     .setAction("Action", null).show();
+
+           }
+       });
+       //음성녹음 버튼
+       FloatingActionButton rec =(FloatingActionButton)findViewById(R.id.fab_rec);
+       rec.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+
+               Snackbar.make(view, "음성녹음", Snackbar.LENGTH_LONG)
+                     .setAction("Action", null).show();
+
+           }
+       });
         editText = (EditText)findViewById(R.id.edit_text);
         String str = PreferencesManager.getRoomName(this);
         editText.setText(str);
