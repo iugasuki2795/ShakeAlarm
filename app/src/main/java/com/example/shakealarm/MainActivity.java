@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(getBaseContext(), AppService.class);
+                        stopService(intent);
                         TheThread thread = new TheThread(TheThread.MODE_DELETE, getBaseContext());
                         thread.start();
                     }

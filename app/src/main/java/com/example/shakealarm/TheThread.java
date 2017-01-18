@@ -54,6 +54,7 @@ public class TheThread extends Thread{
                 break;
             case MODE_DELETE:
                 cm.delete(c);
+                PreferencesManager.setId(c, -1);
                 break;
         }
     }
