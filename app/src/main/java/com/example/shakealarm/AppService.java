@@ -108,16 +108,21 @@ public class AppService extends Service implements SensorEventListener{
 
         public void run(){
             while(PreferencesManager.isEnabled(c)){
-                if(cm!=null&&cm.checkMyState(c)){
+                if(cm==null)continue;
+
+                int state = cm.checkMyState(c);
+                if(state==1){
                     if(PreferencesManager.getRoomName(c).charAt(0)>='a'&&PreferencesManager.getRoomName(c).charAt(0)<='z')
                         tts.setLanguage(Locale.ENGLISH);
                     else
                         tts.setLanguage(Locale.KOREAN);
                     tts.speak(PreferencesManager.getRoomName(c), TextToSpeech.QUEUE_FLUSH, null);
-                    m_vibrator.vibrate(500);
+                    m_vibrator.vibrate(300);
                     try{
-                        Thread.sleep(500);
+                        Thread.sleep(300);
                     }catch(InterruptedException e){}
+                }else if(state==2){
+
                 }
             }
             tts.stop();
