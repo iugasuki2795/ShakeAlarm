@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,7 @@ public class TheThread extends Thread{
                 break;
             case MODE_UPDATE:
                 cm.updateRoom(c, r);
+                Toast.makeText(c,"알람 코드가 바뀌었습니다",Toast.LENGTH_SHORT).show();
         }
     }
 }
