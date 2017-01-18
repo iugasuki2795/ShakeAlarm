@@ -10,18 +10,15 @@
     >
 x
     <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    <Switch
         android:id="@+id/onoff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="true"
-        android:layout_below="@+id/btn"
-        android:layout_centerHorizontal="true"
+        android:textOn=""
+        android:textOff=""
+        android:background="@drawable/btn_onoff_bg"
+        android:layout_below="@id/edit_text"
+        android:layout_centerHorizontal="true"/>
 
-        />
 
     <Button
         android:id="@+id/btn"
