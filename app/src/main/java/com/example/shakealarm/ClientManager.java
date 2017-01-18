@@ -4,7 +4,6 @@ package com.example.shakealarm;
  * Created by Administrator on 2017-01-17.
  */
 
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -18,7 +17,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-
 
 public class ClientManager {
     private Socket socket;
@@ -60,7 +58,8 @@ public class ClientManager {
         }catch(IOException e){}
     }
 
-    public synchronized int sendJoin(Context context, String roomName){//휴대폰 번호를 보내고 가입, 그리고 아이디를 리턴받음.
+    //휴대폰 번호를 보내고 가입, 그리고 아이디를 리턴받음.
+    public synchronized int sendJoin(Context context, String roomName){
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         Log.i("abcd", manager+"");
         String phoneNumber = manager.getLine1Number();
@@ -77,14 +76,16 @@ public class ClientManager {
         return id;
     }
 
-    public synchronized void updateRoom(Context context, String roomName){//방 이름 수정
+    // 방 이름 수정
+    public synchronized void updateRoom(Context context, String roomName){
         PreferencesManager.setRoomName(context, roomName);
         this.writeUTF("Update");
         this.writeInt(PreferencesManager.getId(context));
         this.writeUTF(roomName);
     }
 
-    public synchronized ArrayList<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
+    //onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
+    public synchronized ArrayList<String> askMembers(Context context){
         this.writeUTF("AskMember");
         this.writeInt(PreferencesManager.getId(context));
 
@@ -97,16 +98,16 @@ public class ClientManager {
         return members;
     }
 
-    public synchronized void changeState(Context context){//내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
+    //내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
+    public synchronized void changeState(Context context){
         this.writeUTF("State");
         this.writeInt(PreferencesManager.getId(context));
     }
 
-
+    // 내 상태를 체크함
     public synchronized boolean checkMyState(Context context){
         this.writeUTF("Check");
         this.writeInt(PreferencesManager.getId(context));
-
 
         String check = this.readUTF();
         if(check.equals("FALSE")){
@@ -114,6 +115,15 @@ public class ClientManager {
         }else{
             return true;
         }
+    }
+
+    // 회원 탈퇴를 위해서 id를 보내면, database에서 삭제
+    public synchronized void delete(Context context){
+        this.writeUTF("Delete");
+        this.writeInt(PreferencesManager.getId(context));
+
+        // 이렇게 하면 database에서 클라이언트 정보가 삭제 됩니다
+        // 어플은 클라이언트가 알아서 지우겠죠?
     }
 
     private String getNameFromNumber(Context context, String number){
