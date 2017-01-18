@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -61,7 +62,11 @@ public class ClientManager {
 
     public int sendJoin(Context context, String roomName){//휴대폰 번호를 보내고 가입, 그리고 아이디를 리턴받음.
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+        Log.i("abcd", manager+"");
         String phoneNumber = manager.getLine1Number();
+        if (phoneNumber == null) {
+            phoneNumber="nope";
+        }
         PreferencesManager.setRoomName(context, roomName);
         this.writeUTF("Join");
         this.writeUTF(phoneNumber);
@@ -80,14 +85,21 @@ public class ClientManager {
     }
 
     public ArrayList<String> askMembers(Context context){//onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
+        Log.i("abcd", "a");
         this.writeUTF("AskMember");
+        Log.i("abcd", "b");
         this.writeInt(PreferencesManager.getId(context));
-
+        Log.i("abcd", "c");
         ArrayList<String> members = new ArrayList<>();
+        Log.i("abcd", "d");
         int count = this.readInt();
+        Log.i("abcd", "e");
         for(int i=0;i<count;i++){
+            Log.i("abcd", count+"");
             String number = this.readUTF();
+            Log.i("abcd", "g");
             members.add(getNameFromNumber(context, number));
+            Log.i("abcd", "h");
         }
         return members;
     }

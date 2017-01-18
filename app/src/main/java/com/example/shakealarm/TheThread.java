@@ -33,16 +33,21 @@ public class TheThread extends Thread{
         ClientManager cm = AppService.getClientManager();
         if(cm==null)
             cm = new ClientManager(PreferencesManager.IP, PreferencesManager.port);
+        Log.i("abcd", cm+"");
         switch (mode){
             case MODE_JOIN:
                 cm.sendJoin(c, r);
             case MODE_REQUEST:
-                Log.i("abcd", "start");
                 AppService.setClientManager(cm);
+                Log.i("abcd", "1");
                 ArrayList<String> list =  cm.askMembers(c);
+                Log.i("abcd", "2");
                 Intent intent=new Intent(c,MainActivity.class);
+                Log.i("abcd", "3");
                 intent.putExtra("list", list);
+                Log.i("abcd", "4");
                 c.startActivity(intent);
+                Log.i("abcd", "5");
                 ((Activity)c).finish();
                 break;
         }

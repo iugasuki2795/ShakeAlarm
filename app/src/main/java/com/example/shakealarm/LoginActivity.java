@@ -72,9 +72,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         id = PreferencesManager.getId(this);
 
         if(id!=-1){
-           // showProgress(true);
             TheThread thread = new TheThread(TheThread.MODE_REQUEST, this);
             thread.start();
+            //attemptLogin();
         }
 
 
@@ -207,7 +207,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String nickname = mPasswordView.getText().toString();
 
 
-            TheThread thread = new TheThread(TheThread.MODE_JOIN, this, room_name);
+            TheThread thread;
+            if(PreferencesManager.getId(this)==-1) thread =  new TheThread(TheThread.MODE_JOIN, this, room_name);
+            else thread = new TheThread(TheThread.MODE_REQUEST, this);
             thread.start();
 
             //mAuthTask = new UserLoginTask(email, password);
