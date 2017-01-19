@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         id = PreferencesManager.getId(this);
 
         if(id!=-1){
-            TheThread thread = new TheThread(JOIN, this);
+            TheThread thread = new TheThread(REQUEST, this);
             thread.start();
             //attemptLogin();
         }
