@@ -7,7 +7,6 @@ package com.example.shakealarm;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
@@ -15,10 +14,6 @@ import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -45,11 +40,13 @@ public class ClientManager {
             return in.readUTF();
         }catch(IOException e){ return null; }
     }
+    /*
     public int read(byte[] buffer){
         try{
             return in.read(buffer);
         }catch(IOException e){return 0;}
     }
+    */
     public void writeInt(int i){
         try{
             out.writeInt(i);
@@ -74,7 +71,7 @@ public class ClientManager {
     }
 
     //휴대폰 번호를 보내고 가입, 그리고 아이디를 리턴받음.
-    public synchronized int sendJoin(Context context, String roomName){
+    public int sendJoin(Context context, String roomName){
         TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
         Log.i("abcd", manager+"");
         String phoneNumber = manager.getLine1Number();
@@ -92,7 +89,7 @@ public class ClientManager {
     }
 
     // 방 이름 수정
-    public synchronized void updateRoom(Context context, String roomName){
+    public void updateRoom(Context context, String roomName){
         PreferencesManager.setRoomName(context, roomName);
         this.writeUTF("Update");
         this.writeInt(PreferencesManager.getId(context));
@@ -100,7 +97,7 @@ public class ClientManager {
     }
 
     //onCreate()에서 목록에 표시할 멤버 요청 후 리턴.
-    public synchronized ArrayList<String> askMembers(Context context){
+    public  ArrayList<String> askMembers(Context context){
         this.writeUTF("AskMember");
         this.writeInt(PreferencesManager.getId(context));
 
@@ -114,20 +111,20 @@ public class ClientManager {
     }
 
     //내 폰이 흔들리는 것이 감지되면 이 메소드를 호출
-    public synchronized void changeState(Context context){
+    public void changeState(Context context){
         this.writeUTF("State");
         this.writeInt(PreferencesManager.getId(context));
     }
 
     // 내 상태를 체크함
-    public synchronized int checkMyState(Context context){
+    public int checkMyState(Context context){
         this.writeUTF("Check");
         this.writeInt(PreferencesManager.getId(context));
 
         String check = this.readUTF();
         if(check.equals("FALSE")){
             return 0;
-        }else if(check.equals("VOICE")){
+       /* }else if(check.equals("VOICE")){
             int length = this.readInt();
             File file = new File("voice.3gp");
             try{
@@ -147,21 +144,20 @@ public class ClientManager {
             }catch(FileNotFoundException e){}
             catch (IOException e) {}
             return 2;
+            */
         } else{
             return 1;
         }
     }
 
     // 회원 탈퇴를 위해서 id를 보내면, database에서 삭제
-    public synchronized void delete(Context context){
+    public void delete(Context context){
         this.writeUTF("Delete");
         this.writeInt(PreferencesManager.getId(context));
-
-        // 이렇게 하면 database에서 클라이언트 정보가 삭제 됩니다
-        // 어플은 클라이언트가 알아서 지우겠죠?
     }
 
-    public synchronized void upload(Context context, VoiceRecorder vr){
+    /*
+    public void upload(Context context, VoiceRecorder vr){
         File file = new File(vr.getLocation());
         try{
             FileInputStream fin = new FileInputStream(file);
@@ -184,6 +180,7 @@ public class ClientManager {
         }catch(IOException e){}
 
     }
+    */
 
     private String getNameFromNumber(Context context, String number){
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
@@ -194,5 +191,4 @@ public class ClientManager {
         }
         return number;
     }
-
 }

@@ -59,9 +59,9 @@ public class TheThread extends Thread{
                 cm.delete(c);
                 PreferencesManager.setId(c, -1);
                 break;
-            case FILE:
-                cm.upload(c, vr);
-                break;
+          //  case FILE:
+           //     cm.upload(c, vr);
+           //     break;
         }
     }
 }
